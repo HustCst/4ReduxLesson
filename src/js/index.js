@@ -1,6 +1,291 @@
 import {createStore} from 'redux';
 import React, {Component} from 'react';
+import {combineReducers} from 'redux';
 import ReactDom from 'react-dom';
+
+
+
+
+
+let gid = 0;
+const toDoReducer = (state = [], action) => {
+    switch(action.type) {
+        case 'ADD_TODO':
+            let newState = [...state];
+            newState.push({
+                text: action.text,
+                id: gid++,
+                completed: false,
+            })
+        return newState;
+        case 'TOUCH_TODO':
+            let newState2 = state.map((ele, index) => {
+                if (ele.id === action.id) {
+                    let newEle =  Object.assign({}, ele, {completed: !ele.completed});
+                    console.log(newEle)
+                    return newEle;
+                }
+                return ele;
+            });
+            return newState2;
+        default:
+            return state;
+    }
+}
+
+const filterReducer = (state='SHOW_ALL', action) => {
+    switch (action.type) {
+        case 'TOUCH_FILTER':
+            return action.filter;
+        default:
+            return state;
+    }
+}
+
+let rootReducer = combineReducers({
+    toDoList: toDoReducer,
+    filterText: filterReducer
+})
+
+let store = createStore(rootReducer);
+
+const filterToDoList = (toDoList, filterText) => {
+    switch(filterText) {
+        case 'SHOW_COMPLETE':
+            return toDoList.filter( (ele, index) => {
+                return !ele.completed;
+            })
+        case 'SHOW_ACTIVE':
+            return toDoList.filter( (ele, index) => {
+                return ele.completed;
+            })
+        default:
+            return toDoList;
+    }
+}
+
+class App extends Component {
+    render () {
+        let {toDoList, filterText} = store.getState();
+        toDoList = filterToDoList(toDoList, filterText);
+        return (
+            <div>
+                <input type="text" ref='inp'/>
+                <button onClick={() => {
+                    store.dispatch({
+                        type: 'ADD_TODO',
+                        text: this.refs.inp.value
+                    })
+                }}>ADD</button>
+                <ul>
+                    {
+                        toDoList.map( (ele, index) => {
+                            return <li style={ {textDecoration: ele.completed ? 'line-through' : 'none'} } onClick={() => {
+                                store.dispatch({
+                                    type: 'TOUCH_TODO',
+                                    id: ele.id
+                                })
+                            }} key={ele.id}>{ele.text}</li>;
+                        })
+                    }
+                </ul>
+                <div>
+                    <a href="#" onClick={
+                        () => {
+                            store.dispatch({
+                                type: 'TOUCH_FILTER',
+                                filter: 'SHOW_ALL'
+                            })
+                        }
+                    }>SHOW_ALL</a>
+                    <a href="#" onClick={
+                        () => {
+                            store.dispatch({
+                                type: 'TOUCH_FILTER',
+                                filter: 'SHOW_COMPLETE'
+                            })
+                        }
+                    }>SHOW_COMPLETE</a>
+                    <a href="#" onClick={
+                        () => {
+                            store.dispatch({
+                                type: 'TOUCH_FILTER',
+                                filter: 'SHOW_ACTIVE'
+                            })
+                        }
+                    }>SHOW_ACTIVE</a>
+                </div>
+            </div>
+        )
+    }
+}
+
+const render = () => {
+    ReactDom.render(
+        <App></App>,
+        document.getElementById('root')
+    )
+}
+
+render();
+
+store.subscribe(render);
+
+
+
+
+
+// action
+// {type: 'ADD_TODO', text: value}
+// action
+// {type: 'TOUCH_TODO', id: 2};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import {combineReducers} from 'redux';
+// let gid = 0;
+// const toDosReducer = (state = [], action) => {
+//     switch (action.type) {
+//         case 'ADD_TODO':
+//                 let newState = [...state];
+//                 newState.push({
+//                     text: action.text,
+//                     id: gid++,
+//                     completed: false
+//                 })
+//             return newState;
+//         case 'TOUCH_TODO':
+//                 let newState2 = state.map((ele, index) => {
+//                     if (ele.id === action.id) {
+//                         return Object.assign({}, ele, {completed: !ele.completed})
+//                     }
+//                     return ele;
+//                 })
+//             return newState2;
+//         default:
+//             return state;
+//     }
+// }
+
+// const filterReducer = (state = 'SHOW_ALL', action) => {
+//     switch (action.type) {
+//         case 'SET_VISIABLEFILTER':
+//             return action.filterText;
+//         default: 
+//             return state;
+//     }
+// }
+// let rootReducer = combineReducers({toDoList: toDosReducer, filterText: filterReducer});
+
+// let store = createStore(rootReducer);
+
+// const filterFunc = (toDoList, filterText) => {
+//     switch (filterText) {
+//         case 'SHOW_COMPLETE':
+//             return toDoList.filter((ele) => {
+//                 return !ele.completed
+//             }) 
+//         case 'SHOW_ACTIVE':
+//             return toDoList.filter( (ele) => {
+//                 return ele.completed
+//             })
+//         case 'SHOW_ALL':
+//             return toDoList;
+//     }
+// }
+
+//  class App extends Component {
+//      render () {
+//          let {toDoList, filterText} = store.getState();
+
+//          toDoList = filterFunc(toDoList, filterText);
+//          console.log(toDoList)
+//          return (
+//              <div>
+//                 <input type="text" ref='inp'/>
+//                 <button onClick={() => {
+//                     store.dispatch({
+//                         type: 'ADD_TODO',
+//                         text: this.refs.inp.value,
+//                     })
+//                 }}>add</button>
+//                 <ul>
+//                     {
+//                         toDoList.map( (ele, index) => {
+//                         return <li style={ {textDecoration: ele.completed ? 'line-through': 'none'} } onClick={()=>{
+//                                 store.dispatch({type: 'TOUCH_TODO', id: ele.id})
+//                             }} key={ele.id}>{ele.text}</li>;
+//                         } )
+//                     }
+//                 </ul>
+//                 <div>
+
+//                     <span>
+//                         <a href='#' onClick={ ()=> {
+//                             store.dispatch({type: 'SET_VISIABLEFILTER', filterText: 'SHOW_ALL'});
+//                         }}>SHOW_ALL</a>
+//                     </span>
+//                     <span>
+//                         <a href='#' onClick={ ()=> {
+//                             store.dispatch({type: 'SET_VISIABLEFILTER', filterText: 'SHOW_COMPLETE'});
+//                         }}>SHOW_COMPLETE</a>
+//                     </span>
+//                     <span>
+//                         <a href='#' onClick={ ()=> {
+//                             store.dispatch({type: 'SET_VISIABLEFILTER', filterText: 'SHOW_ACTIVE'});
+//                         }}>SHOW_ACTIVE</a>
+//                     </span>        
+//                 </div>
+//              </div>
+//          )
+//      }
+//  }
+
+// const render = () => {
+//     ReactDom.render(
+//         <App></App>,
+//         document.getElementById('root')
+//     )
+// }
+// render();
+// store.subscribe(render);
+
+
+
+
+
+
+
 
 
 // reducer 1.很纯 2. state action
@@ -85,40 +370,41 @@ import ReactDom from 'react-dom';
 // }
 
 
-const reducer = (state = 0, action) => {
-    switch (action.type) {
-        case 'INCREASE':
-            return state + 1;
-        case 'DECREASE':
-            return state - 1;
-        default: 
-            return state;
-    }
-}
+// const reducer = (state = 0, action) => {
+//     switch (action.type) {
+//         case 'INCREASE':
+//             return state + 1;
+//         case 'DECREASE':
+//             return state - 1;
+//         default: 
+//             return state;
+//     }
+// }
 
-const store = createStore(reducer);
+// const store = createStore(reducer);
 
-class App extends Component {
-    render () {
-        return (
-            <div>
-                <h1>{store.getState()}</h1>
-                <button onClick={() => { store.dispatch({type: 'INCREASE'}) }}>+</button>
-                <button onClick={ () =>{ store.dispatch({type: 'DECREASE'}) }}>-</button>
-            </div>
-        )
-    }
-}
+// class App extends Component {
+//     render () {
+//         return (
+//             <div>
+//                 <h1>{store.getState()}</h1>
+//                 <button onClick={() => { store.dispatch({type: 'INCREASE'}) }}>+</button>
+//                 <button onClick={ () =>{ store.dispatch({type: 'DECREASE'}) }}>-</button>
+//             </div>
+//         )
+//     }
+// }
 
-const render = () => {
-    ReactDom.render(
-        <App/>,
-        document.getElementById('root')
-    )
-}
+// const render = () => {
+//     ReactDom.render(
+//         <App/>,
+//         document.getElementById('root')
+//     )
+// }
 
-render();
+// render();
 
-store.subscribe(render);
+// store.subscribe(render);
+
 
 
