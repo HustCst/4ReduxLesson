@@ -1,40 +1,36 @@
-import {createStore} from 'redux';
 import React, {Component} from 'react';
-import {combineReducers} from 'redux';
 import ReactDom from 'react-dom';
+import Root from './Components-cs/Root.js';
+import store from './configStore-cs.js';
+
+ReactDom.render(
+    <Root store={store}/>,
+    document.getElementById('root')
+);
+
+// const render = () => {
+
+// }
+
+// render();
 
 
-import AddToDo from './Container-cs/AddToDo.js';
-import ToDoList from './Container-cs/ToDoList.js';
-import Footer from './Container-cs/Footer.js';
+// const defaultParameters = {
+//     toDoList: [
+//         {
+//             text: 'duyi',
+//             id: -2,
+//             completed: false
+//         },
+//         {
+//             text: 'edu',
+//             id: -1,
+//             completed: true
+//         },
+//     ],
+//     filterText: 'SHOW_ACTIVE'
+// }
 
-
-
-import rootReducer from './Reducers-cs/RootReducer.js';
-
-import {Provider} from 'react-redux';
-
-
-
-
-
-let store = createStore(rootReducer);
-
-
-
-
-
-class App extends Component {
-    render () {
-        return (
-            <div>
-                <AddToDo></AddToDo>
-                <ToDoList></ToDoList>
-                <Footer></Footer>
-            </div>
-        )
-    }
-}
 
 
 // Provier
@@ -53,16 +49,6 @@ class App extends Component {
 //   store: React.PropTypes.object
 // };
 
-const render = () => {
-    ReactDom.render(
-        <Provider store={store}>
-            <App></App>
-        </Provider>,
-        document.getElementById('root')
-    )
-}
-
-render();
 
 // store.subscribe(render);
 

@@ -75,8 +75,11 @@ class ToDoList extends Component {
 //                 const dispatchProps = mapDispatchToProps(store.dispatch);
 
 //                 const props = Object.assign({}, stateProps, dispatchProps);
+
+//                 // {toDoList: [], selectClick: () => {}}
+
 //                 return (
-//                     <ContentComponent toDoList={} selectClick={}/>
+//                     <ContentComponent/>
 //                 )
 //             }
 //         }

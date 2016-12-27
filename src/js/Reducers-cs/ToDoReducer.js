@@ -1,11 +1,10 @@
-let gid = 0;
 const toDoReducer = (state = [], action) => {
     switch(action.type) {
         case 'ADD_TODO':
             let newState = [...state];
             newState.push({
                 text: action.text,
-                id: gid++,
+                id: action.id,
                 completed: false,
             })
         return newState;

@@ -1,4 +1,5 @@
 let gid = 0;
+
 const toDoReducer = (state = [], action) => {
     switch(action.type) {
         case 'ADD_TODO':

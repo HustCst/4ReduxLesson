@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+
 class FilterLink extends Component {
     render () {
         if (this.props.curFilterText === this.props.myFilterText) {

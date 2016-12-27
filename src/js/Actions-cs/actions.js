@@ -1,7 +1,9 @@
+import {v4} from 'node-uuid';
 export const addToDoAction = (val) => {
     return {
         type: 'ADD_TODO',
-        text: val
+        text: val,
+        id: v4()
     }
 }
 
