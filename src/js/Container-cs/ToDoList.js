@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {TouchToDoAction} from '../Actions-cs/actions.js';
+// 拥有此模块后就不用一层一层传递 filter 传递了
+import {withRouter} from 'react-router';
 
 const filterToDoList = (toDoList, filterText) => {
     switch(filterText) {
-        case 'SHOW_COMPLETE':
+        case 'complete':
             return toDoList.filter( (ele, index) => {
                 return !ele.completed;
             })
-        case 'SHOW_ACTIVE':
+        case 'active':
             return toDoList.filter( (ele, index) => {
                 return ele.completed;
             })
@@ -92,9 +94,9 @@ class ToDoList extends Component {
 
 // 把 需要的state 映射到Props里
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        toDoList: filterToDoList(state.toDoList, state.filterText) 
+        toDoList: filterToDoList(state.toDoList, ownProps.params.filterText == undefined ? 'all' : ownProps.params.filterText) 
     };
 }
 
@@ -108,4 +110,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
+export default withRouter( connect(mapStateToProps, mapDispatchToProps)(ToDoList) );

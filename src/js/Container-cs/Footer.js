@@ -14,13 +14,13 @@ class Footer extends Component {
     //     this.unsubscribe();
     // }
     render() {
-        let {filterText, filterClick} = this.props;
+        // let {filterText, filterClick} = this.props;
         console.log('Footer')
         return (
             <div>   
-                <FilterLink filterClick={filterClick} curFilterText={filterText} myFilterText={'SHOW_ALL'}></FilterLink>
-                <FilterLink filterClick={filterClick} curFilterText={filterText} myFilterText={'SHOW_COMPLETE'}></FilterLink>
-                <FilterLink filterClick={filterClick} curFilterText={filterText} myFilterText={'SHOW_ACTIVE'}></FilterLink>
+                <FilterLink myFilterText={'all'}>SHOW_ALL</FilterLink>
+                <FilterLink myFilterText={'complete'}>SHOW_COMPLETE</FilterLink>
+                <FilterLink myFilterText={'active'}>SHOW_ACTIVE</FilterLink>
             </div>
         )
     }
@@ -31,20 +31,20 @@ class Footer extends Component {
 // };
 
 
-const mapStateToProps = (state) => {
-    return {
-        filterText: state.filterText 
-    };
-}
+// const mapStateToProps = (state) => {
+//     return {
+//         filterText: state.filterText 
+//     };
+// }
 
 // 把需要dispatch 的函数映射到 Props里
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        filterClick: (text) => {
-            dispatch(FilterToDoAction(text)) 
-        }
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         filterClick: (text) => {
+//             dispatch(FilterToDoAction(text)) 
+//         }
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default connect(null, null)(Footer);

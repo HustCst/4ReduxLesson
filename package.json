@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "redux": "webpack-dev-server --progress --colors --devtool source-map"
+    "redux": "webpack-dev-server --progress --colors --devtool source-map --save-dev"
   },
   "repository": {
     "type": "git",
@@ -13,8 +13,14 @@
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
+  "b ugs": {
     "url": "https://github.com/HustCst/4ReduxLesson/issues"
   },
-  "homepage": "https://github.com/HustCst/4ReduxLesson#readme"
+  "homepage": "https://github.com/HustCst/4ReduxLesson#readme",
+  "devDependencies": {
+    "react-router": "^3.0.0-alpha.1"
+  },
+  "dependencies": {
+    "react-router": "^3.0.0-alpha.1"
+  }
 }
