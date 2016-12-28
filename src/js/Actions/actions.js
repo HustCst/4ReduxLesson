@@ -10,9 +10,9 @@ export const TouchToDoAction = (val) => {
         id: val
     }
 }
-export const FilterToDoAction = (val) => {
-    return {
-        type: 'TOUCH_FILTER',
-        filter: val
-    }
-}
+// export const FilterToDoAction = (val) => {
+//     return {
+//         type: 'TOUCH_FILTER',
+//         filter: val
+//     }
+// }

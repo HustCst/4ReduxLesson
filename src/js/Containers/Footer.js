@@ -7,24 +7,24 @@ class Footer extends Component {
         console.log('Footer');
         return (
             <div>
-                <FilterLink onFilterClick={this.props.onFilterClick} curFilterText={this.props.filterText} myFilterText={'SHOW_ALL'}/>
-                <FilterLink onFilterClick={this.props.onFilterClick} curFilterText={this.props.filterText} myFilterText={'SHOW_COMPLETE'}/>
-                <FilterLink onFilterClick={this.props.onFilterClick} curFilterText={this.props.filterText} myFilterText={'SHOW_ACTIVE'}/>
+                <FilterLink myFilterText={'all'}>SHOW_ALL</FilterLink>
+                <FilterLink myFilterText={'completed'}>SHOW_COMPLETE</FilterLink>
+                <FilterLink myFilterText={'active'}>SHOW_ACTIVE</FilterLink>
             </div>
         )
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        filterText: state.filterText
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onFilterClick: (filterText) => {
-            dispatch( FilterToDoAction(filterText) )
-        }
-    }
-}
+// const mapStateToProps = (state) => {
+//     return {
+//         filterText: state.filterText
+//     }
+// }
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         onFilterClick: (filterText) => {
+//             dispatch( FilterToDoAction(filterText) )
+//         }
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default connect(null, null)(Footer);

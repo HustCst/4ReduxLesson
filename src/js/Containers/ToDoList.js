@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {TouchToDoAction} from '../Actions/actions.js';
+import {withRouter} from 'react-router';
 
 const filterToDoList = (toDoList, filterText) => {
     switch(filterText) {
-        case 'SHOW_COMPLETE':
+        case 'completed':
             return toDoList.filter( (ele, index) => {
                 return !ele.completed;
             })
-        case 'SHOW_ACTIVE':
+        case 'active':
             return toDoList.filter( (ele, index) => {
                 return ele.completed;
             })
@@ -20,6 +21,7 @@ const filterToDoList = (toDoList, filterText) => {
 class ToDoList extends Component {
     render () {
         console.log('ToDo')
+
         let {toDoList, onTouchToDo} = this.props;
         return (
             <ul>
@@ -34,9 +36,10 @@ class ToDoList extends Component {
         )
     }
 }
-const mapStateToProps = (state) => {
+
+const mapStateToProps = (state, ownProps) => {
     return {
-        toDoList: filterToDoList(state.toDoList, state.filterText)
+        toDoList: filterToDoList(state.toDoList, ownProps.params.filterText),
     }
 }
 
@@ -48,4 +51,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
+export default  withRouter( connect(mapStateToProps, mapDispatchToProps)(ToDoList) );

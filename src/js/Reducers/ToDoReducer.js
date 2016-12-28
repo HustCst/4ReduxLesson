@@ -1,4 +1,4 @@
-let gid = 0;
+import {v4} from 'node-uuid';
 
 const toDoReducer = (state = [], action) => {
     switch(action.type) {
@@ -6,7 +6,7 @@ const toDoReducer = (state = [], action) => {
             let newState = [...state];
             newState.push({
                 text: action.text,
-                id: gid++,
+                id: v4(),
                 completed: false,
             })
         return newState;
